@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <title>Horizontal Scrollable List</title>
+    <style>
+        /* 为可滚动列表添加自定义样式 */
+        .scrollable-list {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-4">
+        <div class="scrollable-list whitespace-nowrap overflow-x-auto py-4" onwheel="handleWheel(event)">
+            <!-- 循环生成列表项 -->
+            <div class="inline-block w-64 h-64 bg-blue-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-green-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-yellow-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-purple-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-pink-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-orange-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-orange-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-orange-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-orange-500 m-2 rounded-lg shadow-md"></div>
+            <div class="inline-block w-64 h-64 bg-orange-500 m-2 rounded-lg shadow-md"></div>
+        </div>
+    </div>
+
+    <script>
+        function handleWheel(event) {
+            const scrollableList = document.querySelector('.scrollable-list');
+
+            if (event.deltaY === 0) {
+                // 阻止默认的滚动行为
+                event.preventDefault();
+                // 根据滚轮方向滚动列表
+                scrollableList.scrollLeft += event.deltaY;
+            }
+        }
+    </script>
+</body>
+
+</html>
