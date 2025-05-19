@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>简易自适应文本框</title>
+    <style>
+        .auto-resize {
+            width: 100%;
+            min-height: 24px; /* 初始高度 */
+            max-height: 200px; /* 最大高度 */
+            overflow-y: hidden; /* 防止滚动条出现 */
+            transition: height 0.2s; /* 平滑过渡 */
+            resize: none; /* 禁用手动调整大小 */
+            padding: 0; /* 移除内边距 */
+            box-sizing: content-box; /* 使用内容盒模型 */
+            font-size: 24px; /* 文字大小 */
+            line-height: 24px; /* 行高 */
+            border: 1px solid #ccc; /* 简单边框 */
+        }
+    </style>
+</head>
+<body>
+    <!-- rows="1" 用于设置初始状态时文本区域内容高度（textarea.scrollHeigh） -->
+    <textarea rows="1" id="autoResize" class="auto-resize" placeholder="输入内容自动扩展..."></textarea>
+
+    <script>
+        const textarea = document.getElementById('autoResize');
+        
+        function adjustHeight() {
+            // 重置高度以获取准确的滚动高度
+            textarea.style.height = 'auto';
+            // 设置为内容高度，但不超过最大高度
+            const maxHeight = 200;
+            const contentHeight = textarea.scrollHeight;
+            textarea.style.height = Math.min(contentHeight, maxHeight) + 'px';
+            // 当达到最大高度时显示滚动条
+            textarea.style.overflowY = contentHeight > maxHeight ? 'auto' : 'hidden';
+        }
+        
+        // 初始化和监听输入事件
+        textarea.addEventListener('input', adjustHeight);
+        // 页面加载时调整一次
+        window.addEventListener('load', adjustHeight);
+    </script>
+</body>
+</html>
+    
