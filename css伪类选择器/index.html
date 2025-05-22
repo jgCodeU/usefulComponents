@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS伪类选择器演示</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Inter', 'sans-serif';
+            background-color: #f9fafb;
+            color: #1f2937;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* 导航栏 */
+        nav {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo i {
+            font-size: 20px;
+        }
+
+        .nav-logo h1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 24px;
+            }
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f59e0b;
+        }
+
+        .mobile-menu-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-button {
+                display: none;
+            }
+        }
+
+        /* 英雄区 */
+        header {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: white;
+            padding: 64px 0;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* 主要内容 */
+        main {
+            padding: 48px 0;
+        }
+
+        section {
+            margin-bottom: 64px;
+            scroll-margin-top: 80px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: #3B82F6;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 12px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .sub-card {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .sub-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .code-block {
+            background-color: #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* 链接与交互状态 */
+        .link-demo:link {
+            color: blue;
+        }
+
+        .link-demo:visited {
+            color: purple;
+        }
+
+        .link-demo:hover {
+            color: red;
+            text-decoration: underline;
+        }
+
+        .link-demo:active {
+            color: green;
+        }
+
+        .focus-demo:focus {
+            outline: 2px solid orange;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        /* 结构伪类 */
+        .structure-list li:first-child {
+            font-weight: bold;
+            background-color: #dbeafe;
+        }
+
+        .structure-list li:last-child {
+            text-decoration: underline;
+            background-color: #e0e7ff;
+        }
+
+        .structure-list li:nth-child(even) {
+            background-color: #f3f4f6;
+            padding-left: 1rem;
+        }
+
+        .structure-list li:nth-child(3n+1) {
+            color: #1e40af;
+        }
+
+        .structure-list li:nth-child(5) {
+            background-color: #a5b4fc;
+            color: white;
+        }
+
+        h4:first-of-type {
+            color: #3b82f6;
+        }
+
+        p:nth-of-type(2) {
+            font-style: italic;
+        }
+
+        div:last-of-type {
+            border: 1px solid #94a3b8;
+        }
+
+        /* 否定伪类 */
+        div:not(.special) {
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        div:not(.special):hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        input:not([type="submit"]):not([type="reset"]) {
+            background-color: #f9fafb;
+            border: 1px solid #d1d5db;
+        }
+
+        input:not([type="submit"]):not([type="reset"]):focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* 表单伪类 */
+        input:required {
+            border-left: 3px solid #ef4444;
+        }
+
+        input:optional {
+            border-left: 3px solid #9ca3af;
+        }
+
+        input:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        input:read-only {
+            background-color: #e5e7eb;
+        }
+
+        input:valid {
+            border-color: #10b981;
+        }
+
+        input:invalid {
+            border-color: #ef4444;
+        }
+
+        input:focus:invalid {
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+        }
+
+        input[type="radio"]:checked+span,
+        input[type="checkbox"]:checked+span {
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        /* 目标伪类 */
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane:target {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-link[href=""] {
+            background-color: #e0e7ff;
+            color: #1e40af;
+            font-weight: 600;
+        }
+
+        .tab-link[href="#tab1"]:target,
+        .tab-link[href="#tab2"]:target,
+        .tab-link[href="#tab3"]:target {
+            background-color: #e0e7ff;
+            color: #1e40af;
+            font-weight: 600;
+        }
+
+        /* 其他伪类 */
+        .empty-element:empty {
+            border: 2px dashed #ef4444;
+            background-color: #fee2e2;
+            min-height: 40px;
+        }
+
+        .empty-element:not(:empty) {
+            border: 1px solid #9ca3af;
+            background-color: #f9fafb;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+        }
+
+        p[lang="en"]:lang(en) {
+            font-style: italic;
+            color: #3b82f6;
+        }
+
+        p[lang="fr"]:lang(fr) {
+            font-style: italic;
+            color: #10b981;
+        }
+
+        p[lang="zh"]:lang(zh) {
+            font-style: italic;
+            color: #f59e0b;
+        }
+
+        p[lang="es"]:lang(es) {
+            font-style: italic;
+            color: #8b5cf6;
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #3B82F6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563EB;
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        /* 标签样式 */
+        .tab-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .tab-link {
+            padding: 12px 16px;
+            background-color: #e5e7eb;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            text-decoration: none;
+            color: #1f2937;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab-link:hover {
+            background-color: #d1d5db;
+        }
+
+        .tab-content {
+            padding: 24px;
+            background-color: #f3f4f6;
+            border-radius: 0 8px 8px 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 48px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .footer-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            margin-top: 32px;
+            padding-top: 32px;
+            text-align: center;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-content">
+            <div class="nav-logo">
+                <i class="fa-solid fa-code"></i>
+                <h1>CSS伪类选择器演示</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#link">链接状态</a>
+                <a href="#structure">结构伪类</a>
+                <a href="#negation">否定伪类</a>
+                <a href="#form">表单伪类</a>
+                <a href="#target">目标伪类</a>
+                <a href="#other">其他伪类</a>
+            </div>
+            <button class="mobile-menu-button">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <header>
+        <div class="container hero-content">
+            <h1 class="hero-title">CSS伪类选择器</h1>
+            <p class="hero-description">
+                探索CSS伪类选择器的强大功能，通过交互示例了解它们如何根据元素状态、位置和其他条件选择元素。
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 链接与交互状态 -->
+        <section id="link" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-link"></i>链接与交互状态
+                </h2>
+                <div class="grid grid-cols-2">
+                    <div class="sub-card">
+                        <h3 class="sub-title">链接状态</h3>
+                        <div class="space-y-3">
+                            <a href="#" class="link-demo link-unvisited block">未访问的链接</a>
+                            <a href="#" class="link-demo link-visited block">已访问的链接</a>
+                            <a href="#" class="link-demo block">将鼠标悬停在这里</a>
+                            <a href="#" class="link-demo block">点击我查看激活状态</a>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h3 class="sub-title">焦点状态</h3>
+                        <div class="space-y-4">
+                            <input type="text" placeholder="点击这里获取焦点" class="w-full p-3 border rounded-lg focus-demo">
+                            <textarea placeholder="多行文本焦点示例" class="w-full p-3 border rounded-lg focus-demo"></textarea>
+                            <button class="px-4 py-2 bg-primary text-white rounded-lg focus-demo">按钮焦点状态</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+/* 链接状态 */
+a.link-unvisited:link { color: blue; }
+a.link-visited:visited { color: purple; }
+a:hover { color: red; text-decoration: underline; }
+a:active { color: green; }
+
+/* 焦点状态 */
+.focus-demo:focus {
+    outline: 2px solid orange;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3);
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 结构伪类 -->
+        <section id="structure" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-sitemap"></i>结构伪类
+                </h2>
+                <div class="grid grid-cols-2">
+                    <div class="sub-card">
+                        <h3 class="sub-title">子元素选择</h3>
+                        <ul class="structure-list space-y-2">
+                            <li>第一个子元素</li>
+                            <li>第二个子元素</li>
+                            <li>第三个子元素</li>
+                            <li>第四个子元素</li>
+                            <li>第五个子元素</li>
+                            <li>第六个子元素</li>
+                            <li>第七个子元素</li>
+                            <li>第八个子元素</li>
+                            <li>第九个子元素</li>
+                            <li>第十个子元素</li>
+                        </ul>
+                    </div>
+                    <div class="sub-card">
+                        <h3 class="sub-title">类型选择</h3>
+                        <div class="space-y-4">
+                            <h4>标题 1</h4>
+                            <p>这是一个段落。</p>
+                            <div>这是一个div元素。</div>
+                            <h4>标题 2</h4>
+                            <p>这是第二个段落。</p>
+                            <div>这是第二个div元素。</div>
+                            <h4>标题 3</h4>
+                            <p>这是第三个段落。</p>
+                            <div>这是第三个div元素。</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+/* 子元素选择 */
+.structure-list li:first-child { font-weight: bold; }
+.structure-list li:last-child { text-decoration: underline; }
+.structure-list li:nth-child(even) { background-color: #e0e7ff; }
+.structure-list li:nth-child(3n+1) { color: #1e40af; }
+.structure-list li:nth-child(5) { background-color: #a5b4fc; }
+
+/* 类型选择 */
+h4:first-of-type { color: #3b82f6; }
+p:nth-of-type(2) { font-style: italic; }
+div:last-of-type { border: 1px solid #94a3b8; }
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 否定伪类 -->
+        <section id="negation" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-ban"></i>否定伪类
+                </h2>
+                <div class="grid grid-cols-2">
+                    <div class="sub-card">
+                        <h3 class="sub-title">非特定类元素</h3>
+                        <div class="space-y-3">
+                            <div class="special p-3 bg-blue-100 rounded">这是一个特殊的div</div>
+                            <div class="p-3 bg-gray-100 rounded">这是一个普通的div</div>
+                            <div class="p-3 bg-gray-100 rounded">这是另一个普通的div</div>
+                            <div class="p-3 bg-gray-100 rounded">这也是一个普通的div</div>
+                            <div class="special p-3 bg-blue-100 rounded">这是另一个特殊的div</div>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h3 class="sub-title">非特定类型元素</h3>
+                        <div class="space-y-3">
+                            <input type="text" placeholder="普通输入框" class="w-full p-3 border rounded-lg">
+                            <input type="submit" value="提交按钮" class="px-4 py-2 bg-primary text-white rounded-lg">
+                            <input type="reset" value="重置按钮" class="px-4 py-2 bg-red-500 text-white rounded-lg">
+                            <input type="text" placeholder="另一个普通输入框" class="w-full p-3 border rounded-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+/* 非特定类元素 */
+div:not(.special) {
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+div:not(.special):hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* 非特定类型元素 */
+input:not([type="submit"]):not([type="reset"]) {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+}
+input:not([type="submit"]):not([type="reset"]):focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 表单伪类 -->
+        <section id="form" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-form"></i>表单伪类
+                </h2>
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name">姓名 <span class="text-red-500">*</span></label>
+                            <input type="text" id="name" required class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="email">邮箱 <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" required class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="website">网站</label>
+                            <input type="url" id="website" class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="age">年龄</label>
+                            <input type="number" id="age" min="1" max="100" class="w-full p-3 border rounded-lg">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>性别</label>
+                        <div class="flex space-x-4">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" class="form-radio h-4 w-4 text-primary">
+                                <span>男</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" class="form-radio h-4 w-4 text-primary">
+                                <span>女</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" class="form-radio h-4 w-4 text-primary">
+                                <span>其他</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>兴趣爱好</label>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary">
+                                <span>阅读</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary">
+                                <span>旅行</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary">
+                                <span>音乐</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-primary">
+                                <span>运动</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="message">留言</label>
+                        <textarea id="message" rows="4" class="w-full p-3 border rounded-lg"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" required class="form-checkbox h-4 w-4 text-primary">
+                            <span>我同意条款和条件 <span class="text-red-500">*</span></span>
+                        </label>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button type="submit" class="btn-primary">
+                            提交表单
+                        </button>
+                        <button type="reset" class="btn-secondary">
+                            重置
+                        </button>
+                    </div>
+                </form>
+                <div class="code-block">
+                    <pre>
+/* 表单元素状态 */
+input:required {
+    border-left: 3px solid #ef4444;
+}
+input:optional {
+    border-left: 3px solid #9ca3af;
+}
+input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+input:read-only {
+    background-color: #e5e7eb;
+}
+
+/* 输入验证状态 */
+input:valid {
+    border-color: #10b981;
+}
+input:invalid {
+    border-color: #ef4444;
+}
+input:focus:invalid {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* 选中状态 */
+input[type="radio"]:checked + span,
+input[type="checkbox"]:checked + span {
+    font-weight: 600;
+    color: #3b82f6;
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 目标伪类 -->
+        <section id="target" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-crosshairs"></i>目标伪类
+                </h2>
+                <div class="tab-links">
+                    <a href="#tab1" class="tab-link">标签 1</a>
+                    <a href="#tab2" class="tab-link">标签 2</a>
+                    <a href="#tab3" class="tab-link">标签 3</a>
+                </div>
+                <div class="tab-content">
+                    <div id="tab1" class="tab-pane">
+                        <h3 class="text-xl font-semibold mb-3">标签 1 内容</h3>
+                        <p>这是标签 1 的内容。点击上面的标签可以切换不同的内容面板。当前激活的标签会显示高亮背景。</p>
+                    </div>
+                    <div id="tab2" class="tab-pane hidden">
+                        <h3 class="text-xl font-semibold mb-3">标签 2 内容</h3>
+                        <p>这是标签 2 的内容。使用:target伪类可以轻松实现标签切换效果，而无需编写JavaScript代码。</p>
+                    </div>
+                    <div id="tab3" class="tab-pane hidden">
+                        <h3 class="text-xl font-semibold mb-3">标签 3 内容</h3>
+                        <p>这是标签 3 的内容。这种实现方式非常适合简单的标签切换功能，代码简洁且易于维护。</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+/* 目标伪类实现标签切换 */
+.tab-pane {
+    display: none;
+}
+.tab-pane:target {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 激活的标签链接样式 */
+.tab-link[href=""] {
+    background-color: #e0e7ff;
+    color: #1e40af;
+    font-weight: 600;
+}
+.tab-link[href="#tab1"]:target,
+.tab-link[href="#tab2"]:target,
+.tab-link[href="#tab3"]:target {
+    background-color: #e0e7ff;
+    color: #1e40af;
+    font-weight: 600;
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 其他伪类 -->
+        <section id="other" class="mb-16 scroll-mt-20">
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-ellipsis-h"></i>其他伪类
+                </h2>
+                <div class="grid grid-cols-2">
+                    <div class="sub-card">
+                        <h3 class="sub-title">空元素选择</h3>
+                        <div class="space-y-4">
+                            <div class="empty-element p-4 border rounded-lg">这个div有内容</div>
+                            <div class="empty-element p-4 border rounded-lg"></div>
+                            <div class="empty-element p-4 border rounded-lg">这个div也有内容</div>
+                            <div class="empty-element p-4 border rounded-lg"></div>
+                            <div class="empty-element p-4 border rounded-lg">最后一个有内容的div</div>
+                        </div>
+                    </div>
+                    <div class="sub-card">
+                        <h3 class="sub-title">根元素与语言选择</h3>
+                        <div class="p-4 border rounded-lg">
+                            <p class="text-lg">这个页面使用:root伪类定义了全局CSS变量</p>
+                            <div class="mt-4 space-y-2">
+                                <p lang="en">This is an English paragraph.</p>
+                                <p lang="fr">Ceci est un paragraphe en français.</p>
+                                <p lang="zh">这是一个中文段落。</p>
+                                <p lang="es">Este es un párrafo en español.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre>
+/* 空元素选择 */
+.empty-element:empty {
+    border: 2px dashed #ef4444;
+    background-color: #fee2e2;
+    min-height: 40px;
+}
+.empty-element:not(:empty) {
+    border: 1px solid #9ca3af;
+    background-color: #f9fafb;
+}
+
+/* 根元素与语言选择 */
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+}
+
+p[lang="en"]:lang(en) {
+    font-style: italic;
+    color: #3b82f6;
+}
+p[lang="fr"]:lang(fr) {
+    font-style: italic;
+    color: #10b981;
+}
+p[lang="zh"]:lang(zh) {
+    font-style: italic;
+    color: #f59e0b;
+}
+p[lang="es"]:lang(es) {
+    font-style: italic;
+    color: #8b5cf6;
+}
+                    </pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 class="footer-title">CSS伪类选择器演示</h3>
+                    <p class="footer-description">
+                        本页面展示了各种CSS伪类选择器的用法和效果，帮助你更好地理解和应用这些强大的选择器。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="footer-title">快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#link">链接与交互状态</a></li>
+                        <li><a href="#structure">结构伪类</a></li>
+                        <li><a href="#negation">否定伪类</a></li>
+                        <li><a href="#form">表单伪类</a></li>
+                        <li><a href="#target">目标伪类</a></li>
+                        <li><a href="#other">其他伪类</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">了解更多</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes"
+                                target="_blank">MDN CSS伪类文档</a></li>
+                        <li><a href="https://www.w3schools.com/css/css_pseudo_classes.asp" target="_blank">W3Schools
+                                CSS伪类教程</a></li>
+                        <li><a href="https://css-tricks.com/pseudo-class-selectors/"
+                                target="_blank">CSS-Tricks伪类选择器指南</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 CSS伪类选择器演示 | 使用纯CSS和Font Awesome构建</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航链接高亮
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('main section');
+
+            // 初始化链接状态
+            updateNavLinks();
+
+            // 滚动时更新链接状态
+            window.addEventListener('scroll', updateNavLinks);
+
+            function updateNavLinks() {
+                let currentSection = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-accent');
+                    if (link.getAttribute('href') === '#' + currentSection) {
+                        link.classList.add('text-accent');
+                    }
+                });
+            }
+
+            // 标签切换效果
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabPanes.forEach(pane => {
+                if (pane.id === window.location.hash.substring(1)) {
+                    showTab(pane.id);
+                }
+            });
+
+            window.addEventListener('hashchange', function () {
+                showTab(window.location.hash.substring(1));
+            });
+
+            function showTab(tabId) {
+                tabPanes.forEach(pane => {
+                    if (pane.id === tabId) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 表单交互
+            const formInputs = document.querySelectorAll('input, textarea');
+
+            formInputs.forEach(input => {
+                input.addEventListener('blur', function () {
+                    if (this.checkValidity()) {
+                        this.classList.add('border-green-500');
+                        this.classList.remove('border-red-500');
+                    } else {
+                        this.classList.add('border-red-500');
+                        this.classList.remove('border-green-500');
+                    }
+                });
+            });
+
+            // 模拟链接访问状态
+            document.querySelectorAll('.link-demo').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (this.classList.contains('link-unvisited')) {
+                        this.classList.remove('link-unvisited');
+                        this.classList.add('link-visited');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
